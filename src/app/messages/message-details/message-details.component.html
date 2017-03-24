@@ -1,0 +1,36 @@
+<div *ngIf="message" class="row">
+  <div class="col-md-12">
+    <h3 *ngIf="message._id">Message Details</h3>
+    <h2 *ngIf="!message._id">New Message</h2>
+  </div>
+</div>
+<div *ngIf="message" class="row">
+  <form class="col-md-12" *ngIf="!message._id">
+    <div class="form-group">
+      <label for="message-message">Message</label>
+      <input class="form-control" name="message-message" [(ngModel)]="message.text" placeholder="Message"/>
+    </div>
+    <button class="btn btn-primary" (click)="createMessage(message)">Create</button>
+  </form>
+  <form class="col-md-12 form-horizontal bg-info" *ngIf="message._id">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Message</label>
+      <div class="col-sm-9">
+        <p class="form-control-static" [innerText]="message.text"></p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Is this message a palindrome?</label>
+      <div class="col-sm-9">
+        <p class="form-control-static" [innerText]="message.isPalindrome"></p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">ID</label>
+      <div class="col-sm-9">
+        <p class="form-control-static" [innerText]="message._id"></p>
+      </div>
+    </div>
+    <button class="btn btn-danger" (click)="deleteMessage(message._id)">Delete</button>
+  </form>
+</div>
