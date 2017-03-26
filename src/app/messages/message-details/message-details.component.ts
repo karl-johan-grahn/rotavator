@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
-import { Message } from '../message';
-import { MessageService } from '../message.service';
+import { Component, Input } from "@angular/core";
+import { Message } from "../message";
+import { MessageService } from "../message.service";
 
 @Component({
-  selector: 'message-details',
-  templateUrl: './message-details.component.html',
-  styleUrls: ['./message-details.component.css']
+  selector: "message-details",
+  templateUrl: "./message-details.component.html",
+  styleUrls: ["./message-details.component.css"]
 })
 
 export class MessageDetailsComponent {
