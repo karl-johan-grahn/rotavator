@@ -21,9 +21,12 @@ export class MessageListComponent implements OnInit {
     this.messageService
         .getMessages()
         .then((messages: Message[]) => {
-          this.messages = messages.map((message) => {
-            return message;
-          });
+          // If the database is empty on startup, there will be no messages to map
+          if (messages !== undefined) {
+            this.messages = messages.map((message) => {
+              return message;
+            });
+          }
         });
   }
 

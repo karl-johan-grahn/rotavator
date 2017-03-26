@@ -19,7 +19,7 @@ app.use(express.static(distDir));
 var db;
 
 // Connect to the database before starting the application server
-mongodb.MongoClient.connect(config.db.uri, function (err, database) {
+mongodb.MongoClient.connect(config.db.uri, function(err, database) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -30,12 +30,12 @@ mongodb.MongoClient.connect(config.db.uri, function (err, database) {
   console.log("Database connection ready");
 
   // Initialize the app
-  var server = app.listen(config.web.port, function () {
+  var server = app.listen(config.web.port, function() {
     var port = server.address().port;
     console.log("App now running on port", port);
   });
 
-  process.on("SIGINT", function () {
+  process.on("SIGINT", function() {
     console.log("Gracefully shutting down from SIGINT (Ctrl+C)");
     db.close();
     process.exit();
@@ -70,7 +70,6 @@ function isPalindrome(str) {
 }
 
 var ObjectID = mongodb.ObjectID;
-var MESSAGES_COLLECTION = "messages";
 
 // Generic error handler used by all endpoints
 function handleError(res, reason, message, code) {
@@ -105,7 +104,7 @@ function handleError(res, reason, message, code) {
  *     ]
  */
 app.get("/messages", function(req, res) {
-  db.collection(MESSAGES_COLLECTION).find({}).toArray(function(err, docs) {
+  db.collection(config.db.MESSAGES_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get messages");
     } else {
@@ -139,7 +138,7 @@ app.post("/messages", function(req, res) {
     text: req.body.text,
     isPalindrome: isPalindrome(req.body.text)
   };
-  db.collection(MESSAGES_COLLECTION).insertOne(newMessage, function(err, doc) {
+  db.collection(config.db.MESSAGES_COLLECTION).insertOne(newMessage, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to create new message");
     } else {
@@ -177,7 +176,7 @@ app.post("/messages", function(req, res) {
  *     }
  */
 app.get("/messages/:id", function(req, res) {
-  db.collection(MESSAGES_COLLECTION).findOne({_id: new ObjectID(req.params.id)}, function(err, doc) {
+  db.collection(config.db.MESSAGES_COLLECTION).findOne({_id: new ObjectID(req.params.id)}, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to get message");
     } else if (!doc) {
@@ -197,7 +196,7 @@ app.get("/messages/:id", function(req, res) {
  * @apiParam {String} ObjectId Message ID
  */
 app.delete("/messages/:id", function(req, res) {
-  db.collection(MESSAGES_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
+  db.collection(config.db.MESSAGES_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
     if (err) {
       handleError(res, err.message, "Failed to delete message");
     } else {
@@ -211,4 +210,5 @@ app.use(function(req, res) {
   res.status(404).send({url: req.originalUrl + " not found"})
 });
 
-//module.exports = app;
+// Required by test framework
+module.exports = app;

@@ -1,28 +1,52 @@
 # Rotavator
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.2.
+Simple MEAN application exposing a REST API for messages and determining whether they are palindromes.
 
-## Development server
+The [MEAN stack](http://mean.io/) was chosen because of:
+* Ability to do fast prototyping
+* Being a good platform for I/O-bound applications
+* Vast user community
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+It isn't a good platform for computationally intensive ones though.
 
-## Code scaffolding
+[Elixir](http://elixir-lang.org/) is another great option for message based systems, but has a steeper learning curve.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+This app was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.2.
+
+Messages are stored in a Mongo database. Node.JS and Express acts as the server. Angular 2 serves the UI.
+
+The REST API enables the user to get all messages, get a specific message, post a message, and delete a message.
+
+## Configuration
+
+Config files...
+
+### Database
+
+This app requires a Mongo database, or actually two: one for development, one for testing. The same database can theoretically be used for both development and testing,
+but that is discouraged.
+
+Specify the development database via the environment variable `MONGODB_URI`.
+
+Specify the testing database via the environment variable `MONGODB_TEST_URI`.
+
+There are several free options for running a Mongo database:
+* Host it [locally](https://docs.mongodb.com/manual/installation/)
+* Use a free plan at [mLab](https://mlab.com/)
+* Use a free plan at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/pricing)
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `npm install` to build the project. The build artifacts will be stored in the `dist/` directory. Navigate to `http://localhost:8080/`.
 
-## Running unit tests
+### API documentation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Generate API documentation by running the command `npm run apidoc`. Help will be generated in the `dist/apidoc` directory, and will be available on `http://localhost:8080/apidoc`.
 
-## Running end-to-end tests
+## Running functional tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+Run `npm test` to execute functional tests via [Mocha](https://mochajs.org/).
 
-## Further help
+## License
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+MIT
