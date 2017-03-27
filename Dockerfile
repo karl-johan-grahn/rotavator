@@ -1,11 +1,4 @@
-# Use the latest LTS (long term support) version 'boron' of node available from the Docker Hub
-FROM node:boron
-
-# Create a non-root user to increase security in case of container breakout
-RUN groupadd -r nodejs \
-   && useradd -m -r -g nodejs nodejs
-
-USER nodejs
+FROM node:6
 
 # Create directory to hold the application code
 RUN mkdir -p /usr/src/app
@@ -17,6 +10,7 @@ RUN npm install
 
 # Bundle app source
 COPY . /usr/src/app
+RUN npm run postinstall
 
 # App runs on this port by default
 EXPOSE 8080
