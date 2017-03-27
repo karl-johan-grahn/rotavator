@@ -11,8 +11,7 @@
   "homepage": "https://github.com/karl-johan-grahn/rotavator",
   "angular-cli": {},
   "scripts": {
-    "apidoc": "apidoc -e \"(config|dist|e2e|node_modules|src|test)\" -o dist/apidoc",
-    "e2e": "protractor",
+    "apidoc": "apidoc -f server.js -e node_modules -o dist/apidoc",
     "lint": "tslint \"src/**/*.ts\"",
     "ng": "ng",
     "postinstall": "ng build --env=prod && npm run apidoc",

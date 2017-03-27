@@ -18,6 +18,11 @@ app.use(express.static(distDir));
 // Create a database variable in the global scope so the connection can be used by all the route handlers
 var db;
 
+if (!config.db.uri) {
+  console.log("ERROR: The database environment variable is not set!");
+  process.exit(1);
+}
+
 // Connect to the database before starting the application server
 mongodb.MongoClient.connect(config.db.uri, function(err, database) {
   if (err) {
@@ -44,7 +49,7 @@ mongodb.MongoClient.connect(config.db.uri, function(err, database) {
 
 /** @function isPalindrome
  * Determine if a string is a palindrome. A palindrome is defined here as a word or sentence
- * that's spelled the same way both forward and backward, ignoring punctuation, case, and spacing.
+ * that is spelled the same way both forward and backward, ignoring punctuation, case, and spacing.
  * Base cases:
  *  - an empty string is not considered a palindrome
  *  - a single character string is considered a palindrome
@@ -85,8 +90,11 @@ function handleError(res, reason, message, code) {
  * @apiName GetMessages
  * @apiGroup Messages
  *
- * @apiSuccess {Object[]} messages List of messages
- * @apiSuccess {String} messages._id Message ID
+ * @apiExample {curl} Example usage:
+ *     curl -i http://localhost:8080/messages
+ *
+ * @apiSuccess {Object[]} messages Array of messages
+ * @apiSuccess {ObjectId} messages._id Message ID
  * @apiSuccess {String} messages.text Message text
  * @apiSuccess {Boolean} messages.isPalindrome Boolean indicating if the message text is a palindrome
  *
@@ -119,11 +127,14 @@ app.get("/messages", function(req, res) {
  * @apiName NewMessage
  * @apiGroup Message
  *
+ * @apiExample {curl} Example usage:
+ *     curl -H "Content-Type: application/json" -d "{"""text""":"""test message"""}" http://localhost:8080/messages
+ *
  * @apiParam {String} text Text for new message
  *
  * @apiSuccess {String} text Message text
  * @apiSuccess {Boolean} isPalindrome Boolean indicating if the message text is a palindrome
- * @apiSuccess {String} _id Message ID
+ * @apiSuccess {ObjectId} _id Message ID
  *
  * @apiSuccessExample {json} Success-Response
  *     HTTP/1.1 201 Created
@@ -153,11 +164,14 @@ app.post("/messages", function(req, res) {
  * @apiName GetMessage
  * @apiGroup Message
  *
- * @apiParam {String} ObjectId ID of the message
+ * @apiParam {ObjectId} id Message ID
  *
- * @apiSuccess {String} _id Message ID
+ * @apiSuccess {ObjectId} _id Message ID
  * @apiSuccess {String} text Message text
  * @apiSuccess {Boolean} isPalindrome Boolean indicating if the message text is a palindrome
+ *
+ * @apiExample {curl} Example usage:
+ *     curl -i http://localhost:8080/messages/58d0fb9a93f9b51c14713a55
  *
  * @apiSuccessExample {json} Success-Response:
  *     HTTP/1.1 200 OK
@@ -172,7 +186,7 @@ app.post("/messages", function(req, res) {
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 404 Not Found
  *     {
- *       "error":"Failed to get message"
+ *       "error":"Failed to get message with that ID"
  *     }
  */
 app.get("/messages/:id", function(req, res) {
@@ -193,7 +207,10 @@ app.get("/messages/:id", function(req, res) {
  * @apiName DeleteMessage
  * @apiGroup Message
  *
- * @apiParam {String} ObjectId Message ID
+ * @apiExample {curl} Example usage:
+ *     curl -X "DELETE" http://localhost:8080/messages/58d1026a0132a534788b9eb4
+ *
+ * @apiParam {ObjectId} id Message ID
  */
 app.delete("/messages/:id", function(req, res) {
   db.collection(config.db.MESSAGES_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
