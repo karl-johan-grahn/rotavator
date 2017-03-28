@@ -1,0 +1,19 @@
+title Show the list of messages posted by the users
+
+participant Browser
+participant View
+participant Message List Component
+participant MessageService
+participant REST API
+
+Browser->View:visit site
+
+View->Message List Component:interacts with component
+Message List Component->MessageService:initialization
+
+MessageService->REST API:get("/messages")
+REST API->REST API:Process request
+
+MessageService<--REST API:response JSON
+Message List Component<--MessageService:messages array
+View<--Message List Component:update view

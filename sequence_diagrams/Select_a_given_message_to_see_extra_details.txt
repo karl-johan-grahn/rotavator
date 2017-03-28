@@ -1,0 +1,12 @@
+title Select a given message to see extra details
+
+participant Browser
+participant View
+participant Message Details Component
+
+Browser->View:click on a message
+
+View->Message Details Component:interacts with component
+
+
+View<--Message Details Component:update view

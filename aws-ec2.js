@@ -32,10 +32,10 @@ function terminateInstance(instanceId) {
     if(err) {
 	  console.log("Could not terminate instance", err);
     } else {
-       for(var i in data.TerminatingInstances) {
+      for(var i in data.TerminatingInstances) {
         var instance = data.TerminatingInstances[i];
         console.log("Terminating instance: " + instance.InstanceId);
-      } 
+      }
     }
   });
 }
