@@ -1,0 +1,25 @@
+title Post a new message
+
+participant Browser
+participant View
+participant Message List Component
+participant Message Details Component
+participant MessageService
+participant REST API
+
+Browser->View:press "New" button
+
+View->Message List Component:fill in message
+
+Message List Component->Message Details Component:press "Create" button
+
+Message Details Component->MessageService:create handler
+
+MessageService->REST API:post("/messages")
+REST API->REST API:Process request
+
+MessageService<--REST API:response JSON
+
+Message List Component<--MessageService:message object
+
+View<--Message List Component:update view

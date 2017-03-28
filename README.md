@@ -1,9 +1,9 @@
 # Rotavator
 
-Simple MEAN application exposing a REST API for messages and determining whether they are palindromes.
+Simple MEAN application exposing a REST API for messages and determining whether they are palindromes. The API is REST-like in that messages are accessed and modified by using unique URLs that apply HTTP verbs: GET, POST, and DELETE.
 
 The [MEAN stack](http://mean.io/) was chosen because of:
-* Ability to do fast prototyping
+* Node.js has good support for rapid development of HTTP servers with a REST-like API
 * Being a good platform for I/O-bound applications
 * Vast user community
 
@@ -11,16 +11,13 @@ It isn't a good platform for computationally intensive ones though.
 
 [Elixir](http://elixir-lang.org/) is another great option for message based systems, but has a steeper learning curve.
 
-This app was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.2.
-
 Messages are stored in a Mongo database. Node.JS and Express acts as the server. Angular 2 serves the UI.
 
-The REST API enables the user to get all messages, get a specific message, post a message, and delete a message.
+This app was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.2.
 
 ## Prerequisites
 
-This app requires a Mongo database, or actually two: one for development, one for testing. The same database can theoretically be used for both development and testing,
-but that is discouraged.
+This app requires a Mongo database, or actually two: one for development, one for testing. The same database can theoretically be used for both development and testing, but that is discouraged.
 
 Specify the development database via the environment variable `MONGODB_URI`.
 
@@ -57,16 +54,47 @@ Run `npm test` to execute functional tests via [Mocha](https://mochajs.org/).
 
 ## Docker
 
-The Dockerfile is located in the root folder. There is also a .dockerignore file.
+The app is available on Docker Hub.
 
-### Build the image
+The source code also contains a Dockerfile for building an image locally. There is also a .dockerignore file.
 
-docker build -t karljohangrahn/rotavator .
+### Pull image from Docker Hub
 
-### Run the image
+`docker pull karljohangrahn/rotavator`
 
-1. docker run -d -e MONGODB_URI="mongodb://<MONGODB_URI>" -p 8080:8080 <IMAGE ID>
-2. Navigate to [`http://localhost:8080/`](http://localhost:8080/).
+### Build image
+
+`docker build -t <your username>/rotavator .`
+
+### Run image
+
+1. Make sure a Mongo database has been set up and specified via the appropriate environment variable, see Configuration section.
+2. `docker run -d -e MONGODB_URI="mongodb://<MONGODB_URI>" -p 8080:8080 <IMAGE ID>`
+3. Navigate to [`http://localhost:8080/`](http://localhost:8080/).
+
+## Deploy to AWS
+
+1. Create an AWS account and put the `AWS_ID`, `AWS_SECRET`, and `AWS_REGION` in corresponding environment variables.
+2. Generate an SSH RSA (not DSA) key with `ssh-keygen` if there is not already one.
+3. Create a VM:
+$ node_modules/.bin/awsbox create -n myvm
+4. Deploy your code:
+$ git push myvm HEAD:master
+5. Visit `http://<my ip address>`.
+
+## Sequence diagrams
+
+### Show the list of messages posted by the users
+
+![Show the list of messages posted by the users](./sequence_diagrams/Show_the_list_of_messages_posted_by_the_users.png)
+
+### Post a new message
+
+![Post a new message](./sequence_diagrams/Post_a_new_message.png)
+
+### Select a given message to see extra details
+
+![Select a given message to see extra details](./sequence_diagrams/Select_a_given_message_to_see_extra_details.png)
 
 ## License
 
