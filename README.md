@@ -77,9 +77,13 @@ The source code also contains a Dockerfile for building an image locally. There 
 1. Create an AWS account and put the `AWS_ID`, `AWS_SECRET`, and `AWS_REGION` in corresponding environment variables.
 2. Generate an SSH RSA (not DSA) key with `ssh-keygen` if there is not already one.
 3. Create a VM:
-$ node_modules/.bin/awsbox create -n myvm
-4. Deploy your code:
-$ git push myvm HEAD:master
+
+   `$ node_modules/.bin/awsbox create -n myvm`
+
+4. Deploy code:
+
+   `$ git push myvm HEAD:master`
+
 5. Visit `http://<my ip address>`.
 
 ## Sequence diagrams
