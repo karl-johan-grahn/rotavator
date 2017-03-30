@@ -86,6 +86,17 @@ The source code also contains a Dockerfile for building an image locally. There 
 
 5. Visit `http://<my ip address>`.
 
+## Deploy to Google Cloud
+
+1. Use the Cloud Platform Console to create a new Cloud Platform project, create an App Engine application, and enable billing.
+2. Download and install the Google Cloud SDK and then initialize the `gcloud` tool.
+3. Modify `app.yaml` and add URI for Mongo database.
+4. Deploy by running the following command from the GIT directory:
+
+   `gcloud app deploy`
+
+5. View the app at `http://YOUR_PROJECT_ID.appspot.com`.
+
 ## Sequence diagrams
 
 ### Show the list of messages posted by the users

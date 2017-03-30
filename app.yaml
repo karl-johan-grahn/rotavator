@@ -1,0 +1,4 @@
+runtime: custom
+env: flex
+env_variables:
+  MONGODB_URI: 'mongodb://<MONGODB_URI>'
